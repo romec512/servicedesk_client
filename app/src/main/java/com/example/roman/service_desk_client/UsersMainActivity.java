@@ -47,7 +47,7 @@ public class UsersMainActivity extends AppCompatActivity {
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.create();
             claims = gson.fromJson(sender.resultString, Claim[].class);
-            ClaimsAdapter adapter = new ClaimsAdapter(claims);
+            ClaimsAdapter adapter = new ClaimsAdapter(claims, "UsersMainActivity");
             recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
             recyclerView.setAdapter(adapter);
         } catch (ExecutionException e) {

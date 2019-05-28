@@ -21,14 +21,17 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import com.example.roman.service_desk_client.SendData;
+import com.example.roman.service_desk_client.UsersMainActivity;
 
 public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ClaimsViewHolder> {
     List<Claim> cards;
     private static String selectedDate;
     public String [] colors= {"#d0f0c0","#ede674","#f7d420","#f6903e","#f04f54"};
-    private String[] statuses = {"Ожидает назначения мастера", "В работе", "Подтвердите выполнение", "Выполнена"};
+    private String[] statuses = {"Ожидает назначения мастера", "В работе", "Ожидает подтверждения", "Выполнена"};
     private String[] masters = {"Иван Иванов", "Петр Михайлович"};
-    public ClaimsAdapter(Claim[] _cards){
+    private String previousActivity;
+    public ClaimsAdapter(Claim[] _cards, String from){
+        previousActivity = from;
         cards = new ArrayList<Claim>();
         for(Claim claim : _cards){
             cards.add(claim);
@@ -57,7 +60,6 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ClaimsView
             taskCardViewHolder.tvStatus.setTextColor(Color.parseColor("#ff545c"));
         }
         taskCardViewHolder.tvMaster.setText((cards.get(i).serviceman_id != -1 ? "Мастер: " +  masters[cards.get(i).serviceman_id] : ""));
-//        taskCardViewHolder.status = 2;
         taskCardViewHolder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +71,7 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ClaimsView
                         editActivity.putExtra("title", taskCardViewHolder.tvTitle.getText());
                         editActivity.putExtra("description", taskCardViewHolder.description);
                         editActivity.putExtra("inv_id", taskCardViewHolder.invId);
+                        editActivity.putExtra("previous_activity", previousActivity);
                         taskCardViewHolder.cv.getContext().startActivity(editActivity);
                         break;
                     }
@@ -81,38 +84,43 @@ public class ClaimsAdapter extends RecyclerView.Adapter<ClaimsAdapter.ClaimsView
                         showActivity.putExtra("serviceman", taskCardViewHolder.tvMaster.getText());
                         showActivity.putExtra("status", taskCardViewHolder.tvStatus.getText());
                         showActivity.putExtra("inv_id", taskCardViewHolder.invId);
+                        showActivity.putExtra("previous_activity", previousActivity);
                         taskCardViewHolder.cv.getContext().startActivity(showActivity);
                         break;
                     }
                     case 2: {
-                        new SweetAlertDialog(taskCardViewHolder.cv.getContext(), SweetAlertDialog.WARNING_TYPE)
-                                .setTitleText("Проблема решена?")
-                                .setContentText("Заявка переведена в статус завершена. Это означает, что ваша проблема решена." +
-                                        "Если проблема действительно решена, нажмите \"Да\"." +
-                                        "Если же проблема не решена, нажмите кнопку \"Нет\"")
-                                .setConfirmText("Да")
-                                .setCancelText("Нет")
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        taskCardViewHolder.status = 3;
-                                        String params = "id=" + taskCardViewHolder.claimId + "status=3";
-                                        SendData sender = new SendData(params, "claim/updatestatus", taskCardViewHolder.cv.getContext());
-                                        sender.execute();
-                                        sDialog.dismissWithAnimation();
-                                    }
-                                })
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        taskCardViewHolder.status = 1;
-                                        String params = "id=" + taskCardViewHolder.claimId + "status=1";
-                                        SendData sender = new SendData(params, "claim/updatestatus", taskCardViewHolder.cv.getContext());
-                                        sender.execute();
-                                        sweetAlertDialog.dismissWithAnimation();
-                                    }
-                                })
-                                .show();
+                        if(previousActivity.compareTo("UsersMainActivity") == 0) {
+                            new SweetAlertDialog(taskCardViewHolder.cv.getContext(), SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("Проблема решена?")
+                                    .setContentText("Заявка переведена в статус завершена. Это означает, что ваша проблема решена." +
+                                            "Если проблема действительно решена, нажмите \"Да\"." +
+                                            "Если же проблема не решена, нажмите кнопку \"Нет\"")
+                                    .setConfirmText("Да")
+                                    .setCancelText("Нет")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            taskCardViewHolder.status = 3;
+                                            String params = "id=" + taskCardViewHolder.claimId + "&status=3";
+                                            SendData sender = new SendData(params, "claim/updatestatus", taskCardViewHolder.cv.getContext());
+                                            sender.execute();
+                                            sDialog.dismissWithAnimation();
+                                            Intent intent = new Intent(taskCardViewHolder.cv.getContext(), UsersMainActivity.class);
+                                            taskCardViewHolder.cv.getContext().startActivity(intent);
+                                        }
+                                    })
+                                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            taskCardViewHolder.status = 1;
+                                            String params = "id=" + taskCardViewHolder.claimId + "&status=1";
+                                            SendData sender = new SendData(params, "claim/updatestatus", taskCardViewHolder.cv.getContext());
+                                            sender.execute();
+                                            sweetAlertDialog.dismissWithAnimation();
+                                        }
+                                    })
+                                    .show();
+                        }
                     }
                 }
             }

@@ -29,7 +29,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ClaimActivity" />
-        <activity android:name=".AdminMainActivity"></activity>
+        <activity android:name=".AdminMainActivity" />
+        <activity android:name=".ServicemanActivity"></activity>
     </application>
 
 </manifest>

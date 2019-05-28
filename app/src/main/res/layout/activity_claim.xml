@@ -9,23 +9,27 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background_dark"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/loginbackground">
 
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="288dp"
                 android:layout_height="26dp"
-                android:layout_marginStart="44dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 android:text="Краткое описание проблемы"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,12 +37,14 @@
                 android:id="@+id/tvClaimsMaster"
                 android:layout_width="293dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvClaimStatus" />
 
@@ -58,12 +64,14 @@
                 android:id="@+id/tvClaimStatus"
                 android:layout_width="294dp"
                 android:layout_height="36dp"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="112dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="124dp"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
@@ -71,12 +79,14 @@
                 android:id="@+id/etTitle"
                 android:layout_width="296dp"
                 android:layout_height="44dp"
-                android:layout_marginStart="44dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:singleLine="false"
                 android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
@@ -84,12 +94,14 @@
                 android:id="@+id/tvDescription"
                 android:layout_width="296dp"
                 android:layout_height="32dp"
-                android:layout_marginStart="44dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
                 android:text="Подробное описание проблемы"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
@@ -136,6 +148,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvInvNum" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="290dp"
+                android:layout_height="39dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etInvNum" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class LoginActivity extends AppCompatActivity {
     private String usersCredentials = "user:password";
     private String adminsCredentials = "admin:password";
+    private String servicemansCredentials = "serv:password";
     private TextView tvLoginError;
     private EditText etLogin, etPassword;
     private Button loginBtn;
@@ -34,6 +35,10 @@ public class LoginActivity extends AppCompatActivity {
                 } else if(credentials.compareTo(adminsCredentials) == 0) {
                     Intent adminActivity = new Intent(LoginActivity.this, AdminMainActivity.class);
                     startActivity(adminActivity);
+                    finish();
+                } else if(credentials.compareTo(servicemansCredentials) == 0 ){
+                    Intent serviceman = new Intent(LoginActivity.this, ServicemanActivity.class);
+                    startActivity(serviceman);
                     finish();
                 } else {
                     tvLoginError.setText("Неверный логин или пароль!");
